@@ -4,11 +4,15 @@ services:
   demo.kubernetes.deployment:
     image: ${DOCKER_REGISTRY-}demokubernetesdeployment
     container_name: "demo-kubernetes-deployment"
-    environment:
-     - ASPNETCORE_URLS=http://+:80;https://+:443
-     - ASPNETCORE_ENVIRONMENT=Development     
     build:
       context: .
       dockerfile: Demo.Kubernetes.Deployment/Dockerfile
     ports:
      - "8080:80"
+    environment:
+     - ASPNETCORE_URLS=http://+:80;https://+:443
+     - ASPNETCORE_ENVIRONMENT=Development   
+     - ASPNETCORE_Kestrel__Certificates__Default__Password=SECRETPASSWORD
+     - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
+    volumes:
+      - ~/.aspnet/https:/https:ro

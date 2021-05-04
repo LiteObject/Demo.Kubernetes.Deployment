@@ -23,7 +23,7 @@ spec:
     spec:
       containers:
         - name: weather-forecast-webapi
-          image: tuniis/demokubernetesdeployment:latest
+          image: mxshdh/demo-kubernetes-deployment:1.4
           imagePullPolicy: IfNotPresent
           ports:
             #The containerPort defined here describes the port exposed inside the container

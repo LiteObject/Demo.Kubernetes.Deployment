@@ -19,7 +19,7 @@ namespace Demo.Kubernetes.Deployment.Controllers
 
         private static readonly string[] Cities = new[]
         {
-            "Fargo", "Frisco", "Fort Worth"
+            "Fargo", "Frisco", "Fort Worth", "Dallas", "Addison", "TEST CITY"
         };
 
         private readonly ILogger<WeatherForecastController> _logger;
