@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+using System;
 using System.Linq;
 
 namespace Demo.Kubernetes.Deployment.Controllers
@@ -15,7 +17,7 @@ namespace Demo.Kubernetes.Deployment.Controllers
 
         private static readonly string[] Cities = new[]
         {
-            "Dhaka", "Dallas","Fargo", "Frisco", "Fort Worth",
+            "Fargo", "Frisco", "Fort Worth","Dhaka", "Dallas",
         };
 
         private readonly ILogger<WeatherForecastController> _logger;
@@ -32,7 +34,7 @@ namespace Demo.Kubernetes.Deployment.Controllers
             _logger.LogInformation("{method} has been invoked.", nameof(Get));
 
             var rnd = new Random();
-            var result = Enumerable.Range(1, 3).Select(index => new WeatherForecast
+            var result = Enumerable.Range(1, 5).Select(index => new WeatherForecast
             {
                 City = Cities[rnd.Next(Cities.Length)],
                 Date = DateTime.Now.AddDays(index),
