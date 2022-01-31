@@ -1,11 +1,18 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.31105.61
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.32104.313
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Demo.Kubernetes.Deployment", "Demo.Kubernetes.Deployment\Demo.Kubernetes.Deployment.csproj", "{32D8E3FB-A4C5-4E13-9892-70692478FCDF}"
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{41A63857-AB63-4971-84BE-04E7AF4ABED1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{226C74DE-D373-44C3-8366-9DA72575AA6F}"
+	ProjectSection(SolutionItems) = preProject
+		k8s\deployment-with-ingress.yaml = k8s\deployment-with-ingress.yaml
+		k8s\deployment.yaml = k8s\deployment.yaml
+		README.md = README.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

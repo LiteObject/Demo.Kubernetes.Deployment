@@ -1,15 +1,13 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace Demo.Kubernetes.Deployment.Controllers
 {
     [ApiController]
-    [Route("")]
     [Route("[controller]")]
+    [Produces("application/json")]
     public class WeatherForecastController : ControllerBase
     {
         private static readonly string[] Summaries = new[]
@@ -19,7 +17,7 @@ namespace Demo.Kubernetes.Deployment.Controllers
 
         private static readonly string[] Cities = new[]
         {
-            "Fargo", "Frisco", "Fort Worth"
+            "Dhaka", "Dallas","Fargo", "Frisco", "Fort Worth",
         };
 
         private readonly ILogger<WeatherForecastController> _logger;
@@ -27,13 +25,16 @@ namespace Demo.Kubernetes.Deployment.Controllers
         public WeatherForecastController(ILogger<WeatherForecastController> logger)
         {
             _logger = logger;
+            _logger.LogInformation("{ctor} has been instantiated.", nameof(WeatherForecastController));
         }
 
         [HttpGet]
-        public IEnumerable<WeatherForecast> Get()
+        public IActionResult Get()
         {
+            _logger.LogInformation("{method} has been invoked.", nameof(Get));
+
             var rnd = new Random();
-            return Enumerable.Range(1, 5).Select(index => new WeatherForecast
+            var result = Enumerable.Range(1, 3).Select(index => new WeatherForecast
             {
                 City = Cities[rnd.Next(Cities.Length)],
                 Date = DateTime.Now.AddDays(index),
@@ -41,6 +42,10 @@ namespace Demo.Kubernetes.Deployment.Controllers
                 Summary = Summaries[rnd.Next(Summaries.Length)]
             })
             .ToArray();
+
+            _logger.LogInformation("Result: {result}", System.Text.Json.JsonSerializer.Serialize(result));
+
+            return Ok(result);
         }
     }
 }

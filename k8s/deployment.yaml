@@ -1,0 +1,50 @@
+#Indicate the version of the Kubernetes API.
+apiVersion: apps/v1
+#kind defines the type of resource that the manifest is for, in this case it's for a deployment.
+kind: Deployment
+#metadata provides details such as the name of the resource, as well as any labels attached to it.
+metadata:
+  name: demo-kubernetes-deployment
+  labels:
+    app: weather-forecast-deployment    
+#spec section that defines the configuration for the specified kind of resource.
+spec:
+  replicas: 2
+  #selector section of the deployment manifest is used by a deployment to know which pods it is managing.
+  selector:
+    matchLabels:
+      app: weather-forecast-webapi      
+  #template is a "manifest-inside-a-manifest", in that its contents are effectively the manifest for a pod.
+  template:
+    metadata:
+      #Pods get the label(s) through the template blueprint
+      labels:
+        app: weather-forecast-webapi
+    spec:
+      containers:
+        - name: weather-forecast-webapi-container          
+          image: liteobject/demokubernetesdeployment:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            #containerPort defined here describes the port exposed inside the container
+            - containerPort: 82
+              protocol: TCP
+          env:
+            - name: ASPNETCORE_URLS
+              value: http://+:80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: weather-forecast-svc
+  labels:    
+    service: weather-forecast-svc
+spec:
+  type: NodePort #ClusterIP is the default value
+  ports: # external (brower/caller) -> nodePort (node) -> port (service) -> targetPort (pod/containerPort)
+    - nodePort: 32222 #To acccess service via this external port number, go to http://localhost:32222/
+      port: 81 #port number exposed internally in cluster
+      targetPort: 80 #port that containers are listening on (aka Pod/containerPort)
+      protocol: TCP
+  selector:
+    app: weather-forecast-webapi # Forward requests to pod(s) with label of this value.

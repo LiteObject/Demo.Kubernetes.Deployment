@@ -56,15 +56,20 @@ metadata:
   labels: 
     app: weather-forecast-webapi
     service: weather-forecast-svc
-  annotations:
+  annotations:  
     # This annotation uses a special key that is understood by the NGINX ingress controller which 
     # tells the controller it should rewrite the "matched-path" of incoming requests to be
-    nginx.ingress.kubernetes.io/rewrite-target: /
-spec:
-  rules:    
+    nginx.ingress.kubernetes.io/rewrite-target: /    
+spec:  
+  tls:
+    - hosts:
+      - localhost
+      secretName: localhost
+  rules:
+    - host: localhost
     - http:
         paths:
-        - path: /   
+        - path: /WeatherForecast 
           pathType: Prefix       
           backend:
             service:
