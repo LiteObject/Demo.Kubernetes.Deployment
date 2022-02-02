@@ -4,9 +4,9 @@ apiVersion: apps/v1
 kind: Deployment
 #The metadata provides details such as the name of the resource, as well as any labels attached to it.
 metadata:
-  name: demo-kubernetes-deployment
+  name: demo-kubernetes-deployment-with-ingress
   labels:
-    app: weather-forecast-deployment    
+    app: weather-forecast-deployment-with-ingress    
 #spec section that defines the configuration for the specified kind of resource.
 spec:
   replicas: 2
@@ -22,29 +22,30 @@ spec:
         app: weather-forecast-webapi
     spec:
       containers:
-        - name: weather-forecast-webapi
-          image: tuniis/demokubernetesdeployment:latest
+        - name: weather-forecast-webapi-container
+          image: liteobject/demokubernetesdeployment:latest
           imagePullPolicy: IfNotPresent
           ports:
             #The containerPort defined here describes the port exposed inside the container
-            - containerPort: 80
-              protocol: TCP
+            #- containerPort: 80
+            #  protocol: TCP
           env:
             - name: ASPNETCORE_URLS
-              value: http://+:80
+              value: http://+:81
 ---
 apiVersion: v1
 kind: Service
 metadata:
   name: weather-forecast-svc
   labels:
-    app: weather-forecast-webapi
     service: weather-forecast-svc
 spec:
-  type: ClusterIP #ClusterIP is the default value
+  type: ClusterIP 
+  #ClusterIP is a k8s service type that is used to group pods 
+  #together and provide a single interface to access them.
   ports:
-    - port: 8181 #The port that the service will be exposed on
-      targetPort: 80 #Pod/Container port      
+    - port: 81 #The port that the service will be exposed on
+      targetPort: 81 #Pod/Container port      
       protocol: TCP
   selector:
     app: weather-forecast-webapi
@@ -53,13 +54,12 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: weather-forecast-ingress
-  labels: 
-    app: weather-forecast-webapi
-    service: weather-forecast-svc
+  labels:
+    service: weather-forecast-ingress
   annotations:  
     # This annotation uses a special key that is understood by the NGINX ingress controller which 
     # tells the controller it should rewrite the "matched-path" of incoming requests to be
-    nginx.ingress.kubernetes.io/rewrite-target: /    
+    nginx.ingress.kubernetes.io/rewrite-target: /$1    
 spec:  
   tls:
     - hosts:
@@ -75,4 +75,4 @@ spec:
             service:
               name: weather-forecast-svc
               port: 
-                number: 8181
+                number: 81

@@ -10,6 +10,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{226C74DE-D373-44C3-8366-9DA72575AA6F}"
 	ProjectSection(SolutionItems) = preProject
 		k8s\deployment-with-ingress.yaml = k8s\deployment-with-ingress.yaml
+		k8s\deployment-with-load-balancer.yaml = k8s\deployment-with-load-balancer.yaml
 		k8s\deployment.yaml = k8s\deployment.yaml
 		README.md = README.md
 	EndProjectSection

@@ -9,7 +9,7 @@ metadata:
     app: weather-forecast-deployment    
 #spec section that defines the configuration for the specified kind of resource.
 spec:
-  replicas: 1
+  replicas: 4
   #selector section of the deployment manifest is used by a deployment to know which pods it is managing.
   selector:
     matchLabels:
@@ -27,8 +27,8 @@ spec:
           imagePullPolicy: IfNotPresent
           ports:
             #containerPort (optional) defined here describes the port exposed inside the container
-            #- containerPort: 80
-            #  protocol: TCP
+            - containerPort: 80
+              protocol: TCP
           env:
             - name: ASPNETCORE_URLS
               value: http://+:81
@@ -40,15 +40,12 @@ metadata:
   labels:    
     service: weather-forecast-svc
 spec:
-  type: NodePort #ClusterIP is the default value
-  # NodePort is a Kubernetes service type that listens on a port on 
-  # the node and forward requests on that port to a pod on the node.
-  ports: # external (brower/caller) -> nodePort (node) -> port (service) -> targetPort (pod/containerPort)
-    - nodePort: 32222 #To acccess service via this external port number, go to http://localhost:32222/
-      port: 81 #port number exposed internally in cluster
-      #targetPort: 80 #targetPort (optional) that containers are listening on (aka Pod/containerPort)
+  type: LoadBalancer
+  ports:
+    - port: 81 #port number exposed internally in cluster
+      targetPort: 81 #targetPort (optional) that containers are listening on (aka Pod/containerPort)
       protocol: TCP
   selector:
     app: weather-forecast-webapi # Forward requests to pod(s) with label of this value.
 
-# Good explanation on containerPort, targetPort, port: https://stackoverflow.com/questions/63448062/difference-between-container-port-and-targetport-in-kubernetes#:~:text=They%20cannot%20be%20used%20interchangeably,exposes%20a%20set%20of%20Pods%20.
+#Source: https://docs.microsoft.com/en-us/dotnet/architecture/containerized-lifecycle/design-develop-containerized-apps/build-aspnet-core-applications-linux-containers-aks-kubernetes
