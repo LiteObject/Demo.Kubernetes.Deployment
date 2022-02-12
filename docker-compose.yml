@@ -9,8 +9,10 @@ services:
       dockerfile: Demo.Kubernetes.Deployment/Dockerfile
     ports:
      - "8080:80"
+     - "8181:443"
     environment:
      - ASPNETCORE_URLS=http://+:80;https://+:443
+     - ASPNETCORE_HTTPS_PORT=8181
      - ASPNETCORE_ENVIRONMENT=Development   
      - ASPNETCORE_Kestrel__Certificates__Default__Password=SECRETPASSWORD
      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
