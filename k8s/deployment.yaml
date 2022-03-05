@@ -27,11 +27,11 @@ spec:
           imagePullPolicy: IfNotPresent
           ports:
             #containerPort (optional) defined here describes the port exposed inside the container
-            #- containerPort: 80
-            #  protocol: TCP
+            - containerPort: 8080
+              protocol: TCP
           env:
             - name: ASPNETCORE_URLS
-              value: http://+:81
+              value: http://+:8080
           resources:
             limits:
               memory: 128Mi # To limit memory at 256MB, you can assign 268.4M (SI notation) or 256Mi (Binary notation).
@@ -49,7 +49,7 @@ spec:
   # the node and forward requests on that port to a pod on the node.
   ports: # external (brower/caller) -> nodePort (node) -> port (service) -> targetPort (pod/containerPort)
     - nodePort: 32222 #To acccess service via this external port number, go to http://localhost:32222/
-      port: 81 #port number exposed internally in cluster
+      port: 8080 #port number exposed internally in cluster
       #targetPort: 80 #targetPort (optional) that containers are listening on (aka Pod/containerPort)
       protocol: TCP
   selector:

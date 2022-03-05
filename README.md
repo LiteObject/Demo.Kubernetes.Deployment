@@ -18,6 +18,9 @@
 ### To delete a deployment:
 - $`kubectl delete -f k8s/deployment.yaml`
 
+### To see pod's configuration:
+- $`kubectl describe pod {POD_NAME} -n {NAMESPACE}`
+
 ###  To watch logs using label:
 - $`kubectl logs -l app=weather-forecast-webapi -f --since=10m`
 

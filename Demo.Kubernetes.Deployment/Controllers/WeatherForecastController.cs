@@ -6,7 +6,7 @@ using System.Linq;
 namespace Demo.Kubernetes.Deployment.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     [Produces("application/json")]
     public class WeatherForecastController : ControllerBase
     {

@@ -1,11 +1,10 @@
 FROM mcr.microsoft.com/dotnet/aspnet:5.0 AS base
 WORKDIR /app
-EXPOSE 80
 
 FROM mcr.microsoft.com/dotnet/sdk:5.0 AS build
 WORKDIR /src
-#COPY ["Demo.Kubernetes.Deployment/Demo.Kubernetes.Deployment.csproj", "Demo.Kubernetes.Deployment/"]
-COPY . "Demo.Kubernetes.Deployment/"
+COPY ["Demo.Kubernetes.Deployment/Demo.Kubernetes.Deployment.csproj", "Demo.Kubernetes.Deployment/"]
+#COPY . "Demo.Kubernetes.Deployment/" #if running the command from within project foler
 RUN dotnet restore "Demo.Kubernetes.Deployment/Demo.Kubernetes.Deployment.csproj"
 COPY . .
 WORKDIR "/src/Demo.Kubernetes.Deployment"
